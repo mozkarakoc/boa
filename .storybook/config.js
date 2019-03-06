@@ -20,6 +20,7 @@ addParameters({
     sidebarAnimations: true,
   },
 });
+
 const req = require.context('../stories', true, /.stories.js$/);
 
 function loadStories() {

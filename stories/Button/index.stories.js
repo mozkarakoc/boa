@@ -18,4 +18,4 @@ stories.add('Button', ({ props }) => {
       <PropsTable {...props} component={Button} doc={doc} />
     </div>
   );
-});
+}, { doc, defaultProps });

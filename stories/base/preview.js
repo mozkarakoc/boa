@@ -4,7 +4,6 @@ import reactElementToJSXString from 'react-element-to-jsx-string';
 import { ComponentBase } from '@kuveytturk/boa-base';
 import { DocViewer } from '@kuveytturk/boa-components/DocViewer';
 import { DocCode } from '@kuveytturk/boa-components/DocCode';
-import PropsPanel from './props-panel';
 import * as Utils from './utils';
 // import BaseProps from './doc.json';
 
@@ -150,30 +149,15 @@ export default class Preview extends ComponentBase {
     }
     return (
       <div>
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <div style={{ width: '100%' }}>
-            <DocViewer content={'## Props'} editorType="github" />
-            <PropsPanel
-              availableProperties={availableProperties}
-              availableComposedProperties={availableComposedProperties}
-              currentProperties={currentProperties}
-              onPropertyChanged={this.onPropertyChanged}
-              {...this.props}
-            />
-          </div>
-          <div style={{ marginLeft: 100, width: '100%' }}>
-            <DocViewer content="## Preview" editorType="github" />
-            {this.props.sample}
-            {!this.props.sample && (
-              <RenderedComponent
-                {...currentProperties}
-                ref={this.componentRef}
-                onChange={action(`${self.getName()}-onChange`)}
-                onClick={action(`${self.getName()}-onClick`)}
-                context={this.props.context}
-              />
-            )}
-          </div>
+        <div style={{ width: '100%' }}>
+          <DocViewer content="## Preview" editorType="github" />
+          <RenderedComponent
+            {...currentProperties}
+            ref={this.componentRef}
+            onChange={action(`${self.getName()}-onChange`)}
+            onClick={action(`${self.getName()}-onClick`)}
+            context={this.props.context}
+          />
         </div>
         {this.state.code && (
           <DocCode content={this.state.code} highlight lang={'js'} editorType="github" />

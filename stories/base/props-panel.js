@@ -48,7 +48,6 @@ const languageItems = [
 export default class PropsPanel extends ComponentBase {
   constructor(props, context) {
     super(props, context);
-    this.componentPropertySource = [];
     this.onPropertyChanged = this.onPropertyChanged.bind(this);
     this.componentRef = React.createRef();
   }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import addons from '@storybook/addons';
 import { AppProvider, ComponentBase, setLocalization, getTheme } from '@kuveytturk/boa-base';
 import { Localization, Language } from '@kuveytturk/boa-utils';
 import { context } from '@kuveytturk/boa-test/utils';
@@ -30,15 +30,24 @@ export default class Container extends ComponentBase {
     this.state = { context };
   }
 
+  componentDidMount() {
+    const channel = addons.getChannel();
+    channel.emit('props/change-context', this.state.context);
+    channel.on('props/change-theme', this.onThemeChange);
+  }
+
   onResize() {
     const deviceSize = detectSize();
     this.setState({ context: Object.assign({}, this.state.context, { deviceSize }) });
   }
 
   onThemeChange(themeName) {
+    const channel = addons.getChannel();
+    channel.emit('props/change', { themeName });
     const theme = getTheme({ themeName: themeName });
     if (theme) {
       this.setState({ context: Object.assign({}, this.state.context, { theme }) });
+      channel.emit('props/change-context', this.state.context);
     }
   }
 
