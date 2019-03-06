@@ -95,7 +95,11 @@ class PropsPanel extends ComponentBase {
   onStoryChange(id) {
     const { api } = this.props;
     const doc = api.getParameters(id, 'doc');
-    this.prepareData(doc);
+    if (doc) {
+      this.prepareData(doc);
+    } else {
+      this.setState({ availableProperties: [], availableComposedProperties: [] });
+    }
   };
 
   onPropertyChanged() {
@@ -228,9 +232,7 @@ class PropsPanel extends ComponentBase {
               self.setState({
                 selectedLanguage: event.target.value,
               });
-              if (self.props.onThemeChange) {
-                self.props.onLanguageChange(event.target.value);
-              }
+              api.emit('props/change-language', event.target.value);
             }}
           >
             {languageItems.map((item, index) => {

@@ -17,4 +17,4 @@ stories.add('DateTimePicker', ({ props }) => {
       <PropsTable {...props} component={DateTimePicker} doc={doc} />
     </div>
   );
-});
+}, { doc });

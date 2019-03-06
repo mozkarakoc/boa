@@ -34,6 +34,7 @@ export default class Container extends ComponentBase {
     const channel = addons.getChannel();
     channel.emit('props/change-context', this.state.context);
     channel.on('props/change-theme', this.onThemeChange);
+    channel.on('props/change-language', this.onLanguageChange);
   }
 
   onResize() {
@@ -46,12 +47,15 @@ export default class Container extends ComponentBase {
     channel.emit('props/change', { themeName });
     const theme = getTheme({ themeName: themeName });
     if (theme) {
-      this.setState({ context: Object.assign({}, this.state.context, { theme }) });
-      channel.emit('props/change-context', this.state.context);
+      this.setState({ context: Object.assign({}, this.state.context, { theme }) },
+        () => {
+          channel.emit('props/change-context', this.state.context);
+        });
     }
   }
 
   onLanguageChange(value) {
+    const channel = addons.getChannel();
     const localization = { isRightToLeft: value === 5 ? true : false };
     Localization.staticConstructor(value);
 
@@ -61,7 +65,10 @@ export default class Container extends ComponentBase {
         localization: localization,
         messagingContext: {},
       }),
-    });
+    },
+      () => {
+        channel.emit('props/change-context', this.state.context);
+      });
   }
 
   render() {
