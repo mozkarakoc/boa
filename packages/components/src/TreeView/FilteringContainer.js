@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Node } from 'react-virtualized-tree';
 import { InputAction } from '@kuveytturk/boa-components/InputAction';
 import { ComponentBase, ComponentComposer } from '@kuveytturk/boa-base';
 import { Localization } from '@kuveytturk/boa-utils';
