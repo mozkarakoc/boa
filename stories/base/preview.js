@@ -154,8 +154,14 @@ export default class Preview extends ComponentBase {
           <RenderedComponent
             {...currentProperties}
             ref={this.componentRef}
-            onChange={action(`${self.getName()}-onChange`)}
-            onClick={action(`${self.getName()}-onClick`)}
+            onChange={(...args) => {
+              action(`${self.getName()}-onChange`)(...args);
+              this.props.onAction();
+            }}
+            onClick={(...args) => {
+              action(`${self.getName()}-onClick`)(...args);
+              this.props.onAction();
+            }}
             context={this.props.context}
           />
         </div>

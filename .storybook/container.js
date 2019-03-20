@@ -12,6 +12,7 @@ export default class Container extends ComponentBase {
     this.onThemeChange = this.onThemeChange.bind(this);
     this.onLanguageChange = this.onLanguageChange.bind(this);
     this.onResize = this.onResize.bind(this);
+    this.onAction = this.onAction.bind(this);
 
     context.language = Language.EN;
 
@@ -71,11 +72,17 @@ export default class Container extends ComponentBase {
       });
   }
 
+  onAction() {
+    const channel = addons.getChannel();
+    channel.emit('action-created');
+  }
+
   render() {
     const { story, context } = this.props;
     context.props = { context: this.state.context };
     context.props.onThemeChange = this.onThemeChange;
     context.props.onLanguageChange = this.onLanguageChange;
+    context.props.onAction = this.onAction;
 
     return <AppProvider theme={this.state.context.theme}>{story(context)}</AppProvider>;
   }

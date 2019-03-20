@@ -70,18 +70,26 @@ class PropsPanel extends ComponentBase {
     this.onStoryChange = this.onStoryChange.bind(this);
     this.onContextChange = this.onContextChange.bind(this);
     this.onPropertyChanged = this.onPropertyChanged.bind(this);
+    this.onAction = this.onAction.bind(this);
   }
 
   componentDidMount() {
     const { api } = this.props;
     api.on('props/change-context', this.onContextChange);
+    api.on('action-created', this.onAction);
     api.on(STORY_RENDERED, this.onStoryChange);
   }
 
   componentWillUnmount() {
     const { api } = this.props;
-    api.on('props/change-context', this.onContextChange);
+    api.off('props/change-context', this.onContextChange);
+    api.off('action-created', this.onAction);
     api.off(STORY_RENDERED, this.onStoryChange);
+  }
+
+  onAction() {
+    const { api } = this.props;
+    api.setSelectedPanel('storybook/actions/panel');
   }
 
   onContextChange(context) {
